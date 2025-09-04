@@ -1,0 +1,14 @@
+name: only-develop-to-main
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if PR is not from develop
+        run: |
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "A branch main só pode receber merge da branch develop."
+            exit 1
+          fi
