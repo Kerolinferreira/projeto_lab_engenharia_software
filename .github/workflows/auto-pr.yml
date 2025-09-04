@@ -17,7 +17,7 @@ jobs:
 
       # Abre/atualiza PR da branch atual (feature/*) para develop
       - name: Abrir PR
-        uses: vsoch/pull-request-action@v1.1.1
+        uses: vsoch/pull-request-action@1.1.1
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BRANCH_PREFIX: "feature/"
