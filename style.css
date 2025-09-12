@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300..700&display=swap');
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+    font-family: "Spline Sans", sans-serif;
+    background-color: #F2F2F2;
+}
+
+header{
+    margin:4%;
+    position:relative;
+}
+h1{
+    color:#3D9DF2;
+    font-size:clamp(1px, 5vw, 35px);
+}
+h2{
+    margin-left:1%;
+    color:#5B83A6;
+    font-size:clamp(1px,5vw, 23px);
+}
+
+.username{
+    position:absolute;
+    left:35%;
+    top:9%;
+    color: #638CA6;
+    font-weight:850;
+    font-size:clamp(1px, 5vw,17px);
+}
