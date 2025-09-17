@@ -1,0 +1,54 @@
+### Teste simples
+GET http://localhost:8081/api/clientes/testeCliente1
+
+### Teste com PathVariable
+GET http://localhost:8081/api/clientes/testeCliente2/Danilo
+
+### Criar Cliente
+POST http://localhost:8081/api/clientes
+Content-Type: application/json
+
+{
+  "id": 4,
+  "nome": "Mario",
+  "endereco": "Rua XXX"
+}
+
+### Listar Cliente
+GET  http://localhost:8081/api/clientes/listarClientes
+
+### Listar buscaPorIdOuNome
+GET  http://localhost:8081/api/clientes/buscaPorIdOuNome/xxx
+
+### Listar buscaPorIdOuNome
+POST  http://localhost:8081/api/clientes/buscaPorIdOuNome
+Content-Type: application/json
+{
+  "id": 3,
+  "nome": "dan"
+}
+
+### Remover cliente
+DELETE http://localhost:8081/api/clientes/1
+
+
+### Alterar Cliente
+PUT http://localhost:8081/api/clientes/5
+Content-Type: application/json
+
+ {
+    "id": 5,
+    "nome": "Maria",
+    "endereco": "Rua YYYYX",
+   "cidadeId": 15
+  }
+
+### Buscar por texto (busca em ID, nome do cliente e nome da cidade)
+### Teste com ID
+GET http://localhost:8081/api/clientes/buscarPorTexto?texto=1
+
+### Teste com nome de cliente
+GET http://localhost:8081/api/clientes/buscarPorTexto?texto=dan
+
+### Teste com nome de cidade
+GET http://localhost:8081/api/clientes/buscarPorTexto?texto=paulo
