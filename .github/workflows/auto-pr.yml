@@ -1,0 +1,27 @@
+name: Auto PR de feature para develop
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  auto-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Abre/atualiza PR da branch atual (feature/*) para develop
+      - name: Abrir PR
+        uses: vsoch/pull-request-action@1.1.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BRANCH_PREFIX: "feature/"
+          PULL_REQUEST_BRANCH: "develop"
+          PULL_REQUEST_TITLE: "Auto PR: ${{ github.ref_name }} → develop"
+          PULL_REQUEST_BODY: "PR criado automaticamente de ${{ github.ref_name }} para develop."
+          PASS_IF_EXISTS: "true"   # não falha se o PR já existir
