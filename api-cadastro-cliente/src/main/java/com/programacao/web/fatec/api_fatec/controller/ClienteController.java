@@ -6,7 +6,7 @@ import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteService;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.BuscaPorIdOuNomeDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePostDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePutDto;
-import com.programacao.web.fatec.api_fatec.entities.Cliente;
+import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClienteResponseDto;
 
 import java.util.List;
 
@@ -22,20 +22,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 /**
  * Controlador REST para operações relacionadas a clientes.
  * 
- * Este controlador implementa o padrão ResponseEntity do Spring para melhorar o controle
- * sobre as respostas HTTP, permitindo:
- * - Definir códigos de status HTTP apropriados (200 OK, 201 Created, 404 Not Found, etc.)
- * - Incluir cabeçalhos personalizados quando necessário
- * - Estruturar o corpo da resposta de forma consistente
+ * Retorna e recebe DTOs, mantendo a API desacoplada da entidade JPA.
  * 
- * As exceções são tratadas globalmente pelo GlobalExceptionHandler, que captura exceções
- * como ResourceNotFoundException e as converte em respostas HTTP adequadas.
- * 
- * Utiliza o ClienteService para executar a lógica de negócio.
+ * - GET    /listarClientes          → lista todos os clientes
+ * - GET    /buscaPorIdOuNome/{txt}  → busca por ID ou nome via path param
+ * - POST   /buscaPorIdOuNome        → busca por ID ou nome via DTO
+ * - GET    /buscarPorTexto?texto=X  → busca genérica por texto (id, nome, cidade)
+ * - POST   /                        → cria um novo cliente
+ * - PUT    /{id}                    → atualiza cliente existente
+ * - DELETE /{id}                    → exclui cliente
  */
 @RestController
 @RequestMapping("/api/clientes")
@@ -45,69 +43,54 @@ public class ClienteController {
     private ClienteService clienteService;
 
     /**
-     * Lista todos os clientes.
-     * 
-     * @return ResponseEntity com a lista de clientes e status 200 (OK)
+     * Lista todos os clientes cadastrados.
+     * @return lista de clientes em formato DTO
      */
     @GetMapping("/listarClientes")
-    public ResponseEntity<List<Cliente>> listarClientes() {
-        List<Cliente> clientes = clienteService.listarClientes();
+    public ResponseEntity<List<ClienteResponseDto>> listarClientes() {
+        List<ClienteResponseDto> clientes = clienteService.listarClientes();
         return ResponseEntity.ok(clientes);
     }
 
     /**
-     * Busca clientes por ID ou nome usando um parâmetro de caminho.
-     * 
-     * @param search Texto para busca (ID ou nome)
-     * @return ResponseEntity com a lista de clientes encontrados e status 200 (OK)
+     * Busca clientes por ID numérico ou parte do nome, informado no path.
      */
     @GetMapping("/buscaPorIdOuNome/{search}")
-    public ResponseEntity<List<Cliente>> buscaPorIdOuNomeGenerico(@PathVariable String search) {
-        List<Cliente> clientes = clienteService.buscaPorIdOuNomeGenerico(search);
+    public ResponseEntity<List<ClienteResponseDto>> buscaPorIdOuNomeGenerico(@PathVariable String search) {
+        List<ClienteResponseDto> clientes = clienteService.buscaPorIdOuNomeGenerico(search);
         return ResponseEntity.ok(clientes);
     }
 
     /**
-     * Busca clientes por ID ou nome usando um DTO.
-     * 
-     * @param dto DTO contendo ID e nome para busca
-     * @return ResponseEntity com a lista de clientes encontrados e status 200 (OK)
+     * Busca clientes por ID ou nome, recebendo dados em um DTO.
      */
     @PostMapping("/buscaPorIdOuNome")
-    public ResponseEntity<List<Cliente>> buscaPorIdOuNome(@RequestBody BuscaPorIdOuNomeDto dto) {
-        List<Cliente> clientes = clienteService.buscaPorIdOuNome(dto);
+    public ResponseEntity<List<ClienteResponseDto>> buscaPorIdOuNome(@RequestBody BuscaPorIdOuNomeDto dto) {
+        List<ClienteResponseDto> clientes = clienteService.buscaPorIdOuNome(dto);
         return ResponseEntity.ok(clientes);
     }
 
     /**
-     * Busca clientes por texto que corresponda ao ID, nome ou nome da cidade.
-     * 
-     * @param texto O texto a ser buscado em múltiplos campos
-     * @return ResponseEntity com a lista de clientes encontrados e status 200 (OK)
+     * Busca clientes por texto (id, nome ou cidade).
      */
     @GetMapping("/buscarPorTexto")
-    public ResponseEntity<List<Cliente>> buscarPorTexto(@RequestParam String texto) {
-        List<Cliente> clientes = clienteService.buscarPorTexto(texto);
+    public ResponseEntity<List<ClienteResponseDto>> buscarPorTexto(@RequestParam String texto) {
+        List<ClienteResponseDto> clientes = clienteService.buscarPorTexto(texto);
         return ResponseEntity.ok(clientes);
     }
 
     /**
      * Cria um novo cliente.
-     * 
-     * @param dto Dados do cliente a ser criado
-     * @return ResponseEntity com o cliente criado e status 201 (Created)
+     * @param dto dados do cliente a cadastrar
      */
     @PostMapping(value = "", consumes = "application/json")
-    public ResponseEntity<Cliente> createCliente(@RequestBody ClientePostDto dto) {
-        Cliente novoCliente = clienteService.createCliente(dto);
+    public ResponseEntity<ClienteResponseDto> createCliente(@RequestBody ClientePostDto dto) {
+        ClienteResponseDto novoCliente = clienteService.createCliente(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 
     /**
-     * Deleta um cliente pelo ID.
-     * 
-     * @param id ID do cliente a ser deletado
-     * @return ResponseEntity com mensagem de sucesso e status 200 (OK)
+     * Exclui um cliente existente pelo ID.
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarCliente(@PathVariable Long id) {
@@ -117,15 +100,12 @@ public class ClienteController {
 
     /**
      * Atualiza um cliente existente.
-     * 
-     * @param id ID do cliente a ser atualizado
-     * @param dto Novos dados do cliente
-     * @return ResponseEntity com o cliente atualizado e status 200 (OK)
+     * @param id identificador do cliente (path)
+     * @param dto dados novos
      */
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Cliente> alterarCliente(@PathVariable Long id, @RequestBody ClientePutDto dto) {
-        Cliente clienteAtualizado = clienteService.alterarCliente(id, dto);
+    public ResponseEntity<ClienteResponseDto> alterarCliente(@PathVariable Long id, @RequestBody ClientePutDto dto) {
+        ClienteResponseDto clienteAtualizado = clienteService.alterarCliente(id, dto);
         return ResponseEntity.ok(clienteAtualizado);
     }
-
 }
