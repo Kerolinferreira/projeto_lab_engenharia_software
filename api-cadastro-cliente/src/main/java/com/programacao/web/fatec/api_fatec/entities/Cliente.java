@@ -24,7 +24,7 @@ import lombok.Setter;
 
 /**
  * Entidade que representa um cliente no sistema.
- * Um cliente possui um id, um nome, um endereço e está associado a uma cidade.
+ * Um cliente possui um id, um nome e um endereço.
  */
 @Entity
 @Table(name="cadastro_cliente")
@@ -35,7 +35,7 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    private Long id;
 
     @Column(nullable = false)   
     private String loja="01";
@@ -67,11 +67,10 @@ public class Cliente {
     @Column(nullable = false, length =15)
     private String contato;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="endereco_codigo", referencedColumnName = "codigo")
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "endereco_codigo", referencedColumnName = "codigo", nullable = false)
     private Endereco endereco;
-
-    public Cliente(
+        public Cliente(
         String cpf_cnpj,
         String tipo,
         String nome,
