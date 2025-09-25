@@ -35,12 +35,6 @@
             </div>
 
             <div class="grid row">
-              <div class="field span-2">
-                <label for="cpf_cnpj">CPF / CNPJ *</label>
-                <input name="cpf_cnpj" id="cpf_cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00"
-                       autocomplete="off" inputmode="numeric"
-                       pattern="^(\d{3}\.?\d{3}\.?\d{3}-?\d{2}|\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})$" required>
-              </div>
               <div class="field">
                 <label for="tipo">Tipo *</label>
                 <select name="tipo" id="tipo" required>
@@ -49,6 +43,12 @@
                 <option value="pj">Pessoa Jurídica</option>
             </select>
 
+              </div>
+              <div class="field span-2">
+                <label for="cpf_cnpj">CPF / CNPJ *</label>
+                <input name="cpf_cnpj" id="cpf_cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                       autocomplete="off" inputmode="numeric"
+                       pattern="^(\d{3}\.?\d{3}\.?\d{3}-?\d{2}|\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})$" required>
               </div>
             </div>
 
@@ -98,7 +98,7 @@
             <div class="grid row">
               <div class="field small">
                 <label for="cep">CEP</label>
-                <input name="logradouro" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"
+                <input name="cep" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"
                        pattern="^\d{5}-?\d{3}$">
               </div>
               <div class="field span-2">
