@@ -2,11 +2,13 @@ package com.programacao.web.fatec.api_fatec.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteRepository;
 import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteService;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.BuscaPorIdOuNomeDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePostDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePutDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClienteResponseDto;
+import com.programacao.web.fatec.api_fatec.entities.Cliente;
 
 import java.util.List;
 
@@ -45,6 +47,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private ClienteRepository clienteRepository; 
 
     /**
      * Lista todos os clientes cadastrados.
@@ -113,4 +118,15 @@ public ResponseEntity<List<ClienteResponseDto>> buscarPorTexto(@RequestParam Str
         ClienteResponseDto clienteAtualizado = clienteService.alterarCliente(id, dto);
         return ResponseEntity.ok(clienteAtualizado);
     }
+
+    /*
+     * Busca o último id para preencher o campo código no front-end
+     */
+
+@GetMapping("/ultimoId")
+    public Long getUltimoClienteId() {
+    Cliente ultimoCliente = clienteRepository.findTopByOrderByIdDesc();
+    return (ultimoCliente != null) ? ultimoCliente.getId() : 0L;
+}
+
 }

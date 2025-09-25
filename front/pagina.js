@@ -109,24 +109,6 @@ inpCep.addEventListener('blur', (event) => {
 
 
 
-// inicializa variável global
-window.ultimoClienteId = 0; // se quiser, pode buscar do backend no load
-
-const inpCodigo = document.getElementById('codigo');
-
-// Função para atualizar o campo código
-function atualizarCodigo() {
-    if (inpCodigo) {
-        inpCodigo.value = window.ultimoClienteId + 1;
-    }
-}
-
-// chama no load
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarCodigo();
-});
-
-
 
 function salvarComoJson(dados, nomeArquivo = 'cadastro.json') {
     const jsonString = JSON.stringify(dados, null, 2);
@@ -201,10 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const resultado = await response.json();
                 // Atualiza variável global
-                window.ultimoClienteId = resultado.id;
-
-// Atualiza a prévia do próximo código
-                atualizarCodigo();
                 alert('Cadastro realizado com sucesso!');
                 form.reset();
 

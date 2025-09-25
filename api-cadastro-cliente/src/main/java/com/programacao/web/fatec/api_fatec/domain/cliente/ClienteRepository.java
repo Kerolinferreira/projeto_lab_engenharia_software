@@ -31,6 +31,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
            "   OR LOWER(c.endereco.cidade) LIKE LOWER(CONCAT('%', :texto, '%'))")
     List<Cliente> buscarPorTexto(@Param("texto") String texto);
 
+     Cliente findTopByOrderByIdDesc();
 
 }
 

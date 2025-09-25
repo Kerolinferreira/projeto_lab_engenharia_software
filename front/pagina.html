@@ -24,10 +24,38 @@
           <summary>Dados Gerais</summary>
           <div class="content">
             <div class="grid row">
-              <div class="field small">
-                <label for="codigo">Código</label>
-                <input id="codigo" value="1" disabled aria-disabled="true">
-              </div>
+              <!-- Seu input de código -->
+<div class="field small">
+  <label for="codigo">Código</label>
+  <input id="codigo" disabled aria-disabled="true">
+</div>
+
+<script>
+  const inpCodigo = document.getElementById('codigo');
+
+  // Função para buscar o último ID do backend
+  async function buscarUltimoClienteId() {
+    try {
+      const response = await fetch('http://localhost:8081/api/clientes/ultimoId');
+      if (!response.ok) throw new Error('Erro ao buscar último ID');
+      
+      // se o backend retorna um número puro
+      const ultimoId = await response.json();
+      
+      // Atualiza o input com próximo ID
+      inpCodigo.value = ultimoId + 1;
+    } catch (err) {
+      console.error('Erro ao buscar último ID:', err);
+      inpCodigo.value = 1; // fallback
+    }
+  }
+
+  // Chama quando a página carrega
+  document.addEventListener('DOMContentLoaded', () => {
+    buscarUltimoClienteId();
+  });
+</script>
+
               <div class="field small">
                 <label for="loja">Loja</label>
                 <input id="loja" value="1" disabled aria-disabled="true">
