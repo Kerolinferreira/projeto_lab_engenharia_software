@@ -131,6 +131,7 @@ button[type="submit"]:active{ transform:translateY(0) }
   *{ transition:none !important }
 }
 
-input:invalid {
+input:invalid,
+select:invalid {
     border-color: #f10e0e;
 }

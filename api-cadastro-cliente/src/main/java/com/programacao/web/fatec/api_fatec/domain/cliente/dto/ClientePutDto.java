@@ -4,9 +4,6 @@ import java.time.LocalDate;
 
 import com.programacao.web.fatec.api_fatec.domain.endereco.dto.EnderecoDto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,14 +17,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientePutDto {
 
-
-    @NotBlank
     private String cpf_cnpj;
 
-    @NotBlank
+
     private String tipo;
 
-    @NotBlank
     private String nome;
 
     private String nome_fantasia;
@@ -36,15 +30,13 @@ public class ClientePutDto {
 
     private String homepage;
 
-    @NotBlank
-    @Email
     private String email;
 
     private String nome_contato;
 
-    @NotBlank
     private String contato;
 
-    @NotNull
+    private String loja;
+
     private EnderecoDto endereco; // obrigatório
 }

@@ -35,7 +35,7 @@ public class ClienteService {
         endereco.setBairro(dto.getBairro());
         endereco.setCidade(dto.getCidade());
         endereco.setUf(dto.getUf());
-        endereco.setPais(dto.getPais());
+         endereco.setPais("Brasil"); 
         return endereco;
     }
 
@@ -106,7 +106,6 @@ public class ClienteService {
         }
 
         Cliente cliente = new Cliente();
-        cliente.setLoja(dto.getLoja());
         cliente.setCpf_cnpj(dto.getCpf_cnpj());
         cliente.setTipo(dto.getTipo());
         cliente.setNome(dto.getNome());
@@ -129,7 +128,6 @@ public class ClienteService {
             throw new IllegalArgumentException("Endereço é obrigatório");
         }
 
-        cliente.setLoja(dto.getLoja());
         cliente.setCpf_cnpj(dto.getCpf_cnpj());
         cliente.setTipo(dto.getTipo());
         cliente.setNome(dto.getNome());
@@ -151,4 +149,11 @@ public class ClienteService {
         clienteRepository.deleteById(id);
         return "Cliente Deletado";
     }
+
+    public List<ClienteResponseDto> buscarPorTexto(String texto) {
+    return clienteRepository.buscarPorTexto(texto)
+            .stream()
+            .map(this::toResponseDto)
+            .collect(Collectors.toList());
+}
 }
