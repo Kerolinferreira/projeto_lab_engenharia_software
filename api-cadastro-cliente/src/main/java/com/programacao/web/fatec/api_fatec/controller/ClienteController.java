@@ -2,17 +2,20 @@ package com.programacao.web.fatec.api_fatec.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteRepository;
 import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteService;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.BuscaPorIdOuNomeDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePostDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePutDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClienteResponseDto;
+import com.programacao.web.fatec.api_fatec.entities.Cliente;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controlador REST para operações relacionadas a clientes.
- * 
+ *
  * Retorna e recebe DTOs, mantendo a API desacoplada da entidade JPA.
- * 
+ *
  * - GET    /listarClientes          → lista todos os clientes
  * - GET    /buscaPorIdOuNome/{txt}  → busca por ID ou nome via path param
  * - POST   /buscaPorIdOuNome        → busca por ID ou nome via DTO
@@ -35,12 +38,18 @@ import org.springframework.web.bind.annotation.RequestParam;
  * - PUT    /{id}                    → atualiza cliente existente
  * - DELETE /{id}                    → exclui cliente
  */
+
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private ClienteRepository clienteRepository; 
 
     /**
      * Lista todos os clientes cadastrados.
@@ -73,11 +82,12 @@ public class ClienteController {
     /**
      * Busca clientes por texto (id, nome ou cidade).
      */
-    @GetMapping("/buscarPorTexto")
-    public ResponseEntity<List<ClienteResponseDto>> buscarPorTexto(@RequestParam String texto) {
-        List<ClienteResponseDto> clientes = clienteService.buscarPorTexto(texto);
-        return ResponseEntity.ok(clientes);
-    }
+   @GetMapping("/buscarPorTexto")
+public ResponseEntity<List<ClienteResponseDto>> buscarPorTexto(@RequestParam String texto) {
+    List<ClienteResponseDto> clientes = clienteService.buscarPorTexto(texto);
+    return ResponseEntity.ok(clientes);
+}
+
 
     /**
      * Cria um novo cliente.
@@ -108,4 +118,15 @@ public class ClienteController {
         ClienteResponseDto clienteAtualizado = clienteService.alterarCliente(id, dto);
         return ResponseEntity.ok(clienteAtualizado);
     }
+
+    /*
+     * Busca o último id para preencher o campo código no front-end
+     */
+
+@GetMapping("/ultimoId")
+    public Long getUltimoClienteId() {
+    Cliente ultimoCliente = clienteRepository.findTopByOrderByIdDesc();
+    return (ultimoCliente != null) ? ultimoCliente.getId() : 0L;
+}
+
 }

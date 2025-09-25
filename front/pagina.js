@@ -109,6 +109,7 @@ inpCep.addEventListener('blur', (event) => {
 
 
 
+
 function salvarComoJson(dados, nomeArquivo = 'cadastro.json') {
     const jsonString = JSON.stringify(dados, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
@@ -124,7 +125,7 @@ function salvarComoJson(dados, nomeArquivo = 'cadastro.json') {
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
-    const submitButton = document.getElementById('submit-button');
+    const submitButton = document.getElementById('submit');
     
     if (form && submitButton) {
         form.addEventListener('submit', async (event) => {
@@ -140,28 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
             
 
             const dadosfim = {
+    cpf_cnpj: dadosPlanos.cpf_cnpj,
+    tipo: dadosPlanos.tipo,
+    nome: dadosPlanos.nome,
+    nome_fantasia: dadosPlanos.nome_fantasia || null,
+    data_abertura_nascimento: dadosPlanos.data_abertura_nascimento || null,
+    homepage: dadosPlanos.homepage || null,
+    email: dadosPlanos.email,
+    nome_contato: dadosPlanos.nome_contato || null,
+    contato: dadosPlanos.contato,
+    endereco: {
+        cep: dadosPlanos.cep.replace(/\D/g, ''),
+        logradouro: dadosPlanos.logradouro,
+        numero: dadosPlanos.numero,
+        complemento: dadosPlanos.complemento || null,
+        bairro: dadosPlanos.bairro,
+        cidade: dadosPlanos.cidade,
+        uf: dadosPlanos.uf,
+        pais: "Brasil"
+    }
+};
 
-                cpf_cnpj: dadosPlanos.cpf_cnpj,
-                tipo: dadosPlanos.tipo,
-                nome: dadosPlanos.nome,
-                nome_fantasia: dadosPlanos.nome_fantasia || null,
-                data_abertura_nascimento: dadosPlanos.data_abertura_nascimento,
-                homepage: dadosPlanos.homepage || null,
-                email: dadosPlanos.email,
-                nome_contato: dadosPlanos.nome_contato || null,
-                contato: dadosPlanos.contato,
-
-                endereco: {
-                    cep: dadosPlanos.cep.replace(/\D/g, ''),
-                    logradouro: dadosPlanos.logradouro,
-                    numero: dadosPlanos.numero,
-                    complemento: dadosPlanos.complemento || null,
-                    bairro: dadosPlanos.bairro,
-                    cidade: dadosPlanos.cidade,
-                    uf: dadosPlanos.uf,
-                    pais: dadosPlanos.pais || null
-                }
-            };
+;
                         
             submitButton.disabled = true;
             submitButton.textContent = 'Finalizando cadastro...';
@@ -170,8 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('http://localhost:8081/api/clientes', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosfim)
+                    body: JSON.stringify(dadosfim),
+                    
                 });
+                console.log("dados enviados");
 
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -179,8 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 const resultado = await response.json();
+                // Atualiza variável global
                 alert('Cadastro realizado com sucesso!');
                 form.reset();
+
 
             } catch (error) {
                 console.error('Falha ao enviar o formulário:', error);
