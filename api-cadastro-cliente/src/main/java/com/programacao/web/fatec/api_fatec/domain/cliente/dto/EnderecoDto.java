@@ -1,4 +1,5 @@
-package com.programacao.web.fatec.api_fatec.domain.endereco.dto;
+package com.programacao.web.fatec.api_fatec.domain.cliente.dto;
+
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
