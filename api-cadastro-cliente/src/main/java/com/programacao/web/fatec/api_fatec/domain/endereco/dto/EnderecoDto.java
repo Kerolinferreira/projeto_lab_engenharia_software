@@ -1,6 +1,5 @@
 package com.programacao.web.fatec.api_fatec.domain.endereco.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,21 +15,21 @@ public class EnderecoDto {
 
     private String cep;
 
-    @NotBlank
+
     private String logradouro;
 
-    @NotBlank
+
     private String numero;
 
     private String complemento;
 
     private String bairro;
 
-    @NotBlank
+
     private String cidade;
 
-    @NotBlank
-    private String uf;
 
+    private String uf;
     private String pais = "Brasil";
+
 }

@@ -22,4 +22,16 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
            "AND (:nome IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT('%', :nome, '%')))")
     List<Cliente> buscarPorIdOuNome(@Param("id") Long id, @Param("nome") String nome);
 
+        /**
+     * Busca clientes por texto (id, nome ou cidade).
+     */
+    @Query("SELECT c FROM Cliente c " +
+           "WHERE CAST(c.id AS string) LIKE %:texto% " +
+           "   OR LOWER(c.nome) LIKE LOWER(CONCAT('%', :texto, '%')) " +
+           "   OR LOWER(c.endereco.cidade) LIKE LOWER(CONCAT('%', :texto, '%'))")
+    List<Cliente> buscarPorTexto(@Param("texto") String texto);
+
+
 }
+
+
