@@ -1,4 +1,4 @@
-/* ========= tokens ========= */
+ /* ========= tokens ========= */
 :root{
   --bg-page:#f0f2f5;
   --bg-card:#fff;
@@ -14,7 +14,7 @@
   --focus-ring:0 0 0 3px rgba(11,116,255,.18);
 }
 
-/* ========= Reset básico bosta ========= */
+/* ========= Reset básico ========= */
 * { box-sizing:border-box; margin:0; padding:0 }
 html,body{height:100%}
 body{
@@ -135,3 +135,63 @@ input:invalid,
 select:invalid {
     border-color: #f10e0e;
 }
+
+/* ================== ADIÇÕES: Lista e Modal ================== */
+
+/* Barra de ferramentas da lista */
+.tools-row{
+  display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px;
+}
+.tools-row .sr-only{ position:absolute; left:-9999px }
+.tools-row input[type="search"]{
+  padding:10px 12px; border:1px solid #cdd9ee; border-radius:8px; min-width:260px; background:#f5f8ff
+}
+.btn-ghost{
+  background:#f3f4f6; color:#374151; border-radius:8px; padding:10px 12px; font-weight:600; border:0; cursor:pointer
+}
+
+/* Tabela */
+.table-wrap{ overflow:auto; border:1px solid var(--line); border-radius:10px }
+.table{ width:100%; border-collapse:collapse; min-width:780px; background:white }
+.table th, .table td{ text-align:left; padding:12px 10px; border-bottom:1px solid var(--line) }
+.table th{ font-size:13px; color:#475569; background:#fafbff; position:sticky; top:0; z-index:1 }
+.mono{ font-variant-numeric:tabular-nums; color:#111827 }
+.actions{ display:flex; gap:8px }
+.table-btn{ padding:8px 10px; border-radius:8px; font-size:13px; font-weight:600; border:0; cursor:pointer }
+.table-btn.edit{ background:#e0f2fe; color:#075985 }
+.table-btn.del{  background:#ffe4e6; color:#9f1239 }
+.empty{ padding:18px; color:#6b7280 }
+
+/* Modal centralizado */
+dialog{
+  margin:0;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:min(560px, 96vw);
+  max-height:85vh;
+  padding:0;
+  border:0;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(15,23,42,.18);
+  background:#fff;
+}
+dialog::backdrop{ background:rgba(0,0,0,.45) }
+
+.modal-head{ padding:16px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center }
+.modal-head h2{ font-size:18px; margin:0 }
+.modal-body{ max-height:60vh; overflow:auto; padding:0 0 6px 0 }
+.modal-foot{ display:flex; justify-content:flex-end; gap:8px; padding:14px 18px; border-top:1px solid var(--line) }
+
+.btn-solid{
+  background:linear-gradient(45deg, var(--brand-2), var(--brand));
+  color:#fff; font-weight:700; padding:10px 14px; border-radius:10px; border:0; cursor:pointer
+}
+
+/* Telas muito baixas */
+@media (max-height:560px){
+  dialog{ max-height:92vh }
+  .modal-body{ max-height:68vh }
+}
+
