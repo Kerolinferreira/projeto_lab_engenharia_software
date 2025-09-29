@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tela de Cadastro Responsiva</title>
+  <!-- Link para o CSS externo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <h1>Cadastro</h1>
+        <p>Preencha os dados de cadastro</p>
+      </div>
+      <div class="user">Usuário: <strong>Teste</strong></div>
+    </header>
+
+    <main>
+      <form novalidate>
+        <!-- DADOS GERAIS -->
+        <details class="section" open>
+          <summary>Dados Gerais</summary>
+          <div class="content">
+            <div class="grid row">
+              <!-- Seu input de código -->
+<div class="field small">
+  <label for="codigo">Código</label>
+  <input id="codigo" disabled aria-disabled="true">
+</div>
+
+<script>
+  const inpCodigo = document.getElementById('codigo');
+
+  // Função para buscar o último ID do backend
+  async function buscarUltimoClienteId() {
+    try {
+      const response = await fetch('http://localhost:8081/api/clientes/ultimoId');
+      if (!response.ok) throw new Error('Erro ao buscar último ID');
+      
+      // se o backend retorna um número puro
+      const ultimoId = await response.json();
+      
+      // Atualiza o input com próximo ID
+      inpCodigo.value = ultimoId + 1;
+    } catch (err) {
+      console.error('Erro ao buscar último ID:', err);
+      inpCodigo.value = 1; // fallback
+    }
+  }
+
+  // Chama quando a página carrega
+  document.addEventListener('DOMContentLoaded', () => {
+    buscarUltimoClienteId();
+  });
+</script>
+
+              <div class="field small">
+                <label for="loja">Loja</label>
+                <input id="loja" value="1" disabled aria-disabled="true">
+              </div>
+            </div>
+
+            <div class="grid row">
+              <div class="field">
+                <label for="tipo">Tipo *</label>
+                <select name="tipo" id="tipo" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="pf">Pessoa Física</option>
+                <option value="pj">Pessoa Jurídica</option>
+            </select>
+
+              </div>
+              <div class="field span-2">
+                <label for="cpf_cnpj">CPF / CNPJ *</label>
+                <input name="cpf_cnpj" id="cpf_cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                       autocomplete="off" inputmode="numeric"
+                       pattern="^(\d{3}\.?\d{3}\.?\d{3}-?\d{2}|\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})$" required>
+              </div>
+            </div>
+
+            <div class="grid row">
+              <div class="field">
+                <label for="nome">Nome *</label>
+                <input name="nome" id="nome" placeholder="xxxxxxxxx" required>
+              </div>
+              <div class="field">
+                <label for="nome_fantasia">Nome Fantasia</label>
+                <input name="nome_fantasia" id="nome_fantasia" placeholder="xxxxxxxxx">
+              </div>
+              <div class="field small">
+                <label for="data_nasc">Data Abert/Nasc</label>
+                <input name="data_abertura_nascimento" id="data_nasc" placeholder="dd/mm/aaaa" type="date">
+              </div>
+            </div>
+
+            <div class="grid row">
+              <div class="field span-2">
+                <label for="homepage">HomePage</label>
+                <input name="homepage" id="homepage" type="url" placeholder="https://exemplo.com">
+              </div>
+              <div class="field">
+                <label for="email">Email *</label>
+                <input name="email" id="email" type="email" placeholder="xxxx@xxx.xxx" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label for="nome_contato">Nome de Contato</label>
+                <input name="nome_contato" id="nome_contato" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="contato">Contato *</label>
+                <input name="contato" id="contato" placeholder="(xx) xxxxx-xxxx" inputmode="tel" maxlength="16" required>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!----------------------- ENDEREÇO ---------------------------->
+        <details class="section" open>
+          <summary>Endereço</summary>
+          <div class="content">
+            <div class="grid row">
+              <div class="field small">
+                <label for="cep">CEP</label>
+                <input name="cep" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"
+                       pattern="^\d{5}-?\d{3}$">
+              </div>
+              <div class="field span-2">
+                <label for="logradouro">Logradouro *</label>
+                <input name="logradouro" id="logradouro" placeholder="xxxxxxxxx" required>
+              </div>
+              <div class="field mini">
+                <label for="numero">Nº *</label>
+                <input name="numero" id="numero" placeholder="0000" inputmode="numeric" required>
+              </div>
+              <div class="field">
+                <label for="complemento">Complemento</label>
+                <input name="complemento" id="complemento" placeholder="xxxxxxxx xxxxxx">
+              </div>
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label for="bairro">Bairro *</label>
+                <input name="bairro" id="bairro" placeholder="xxxxxxx" required>
+              </div>
+              <div class="field">
+                <label for="cidade">Cidade *</label>
+                <input name="cidade" id="cidade" placeholder="xxxxxxx"  required>
+              </div>
+              <div class="field">
+                <label for="pais">País</label>
+                <input name="pais" id="pais" value="Brasil" disabled aria-disabled="true">
+              </div>
+              <div class="field mini">
+                <label for="uf">UF *</label>
+                <input name="uf" id="uf" placeholder="XX" maxlength="2"
+                       pattern="^[A-Za-z]{2}$" style="text-transform:uppercase" required>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button type="submit" id="submit">ENVIAR</button>
+        </div>
+      </form>
+
+      <!-- ========== ADIÇÃO: Lista de Clientes (aba colapsável) ========== -->
+      <details id="lista-clientes" class="section" open>
+        <summary>Lista de Clientes</summary>
+        <div class="content">
+          <div class="tools-row" style="margin-top:8px">
+            <label for="search" class="sr-only">Pesquisar</label>
+            <input id="search" type="search" placeholder="Pesquisar (código, razão, fantasia, CNPJ, cidade)..." />
+            <button id="clearBtn" type="button" class="btn-ghost">Limpar</button>
+          </div>
+
+          <div class="table-wrap" role="region" aria-live="polite" aria-label="Tabela de clientes">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width:90px">Código</th>
+                  <th>Razão Social</th>
+                  <th>Fantasia</th>
+                  <th style="width:180px">CNPJ/CPF</th>
+                  <th>Cidade</th>
+                  <th style="width:180px">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <div id="empty" class="empty" hidden>Nenhum cliente encontrado.</div>
+        </div>
+      </details>
+
+      <!-- ========== ADIÇÃO: Modal de EDIÇÃO (centralizado, ID travado) ========== -->
+      <dialog id="editDialog" aria-labelledby="dialogTitle">
+        <form id="editForm" method="dialog">
+          <div class="modal-head">
+            <h2 id="dialogTitle">Editar cliente</h2>
+            <button type="button" id="closeDialog" class="btn-ghost">✕</button>
+          </div>
+
+          <div class="modal-body" style="display:block">
+            <!-- ID imutável -->
+            <input type="hidden" id="f_id">
+            <div class="field small" style="margin-bottom:10px">
+              <label for="f_id_display">ID</label>
+              <input id="f_id_display" disabled aria-disabled="true">
+            </div>
+
+            <!-- DADOS GERAIS -->
+            <details class="section" open>
+              <summary>Dados Gerais</summary>
+              <div class="content">
+                <div class="grid row">
+                  <div class="field span-2">
+                    <label class="req" for="f_cpf_cnpj">CPF / CNPJ *</label>
+                    <input id="f_cpf_cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00" required>
+                  </div>
+                  <div class="field">
+                    <label class="req" for="f_tipo">Tipo *</label>
+                    <select id="f_tipo" required>
+                      <option value="" disabled selected>Selecione...</option>
+                      <option value="pf">Pessoa Física</option>
+                      <option value="pj">Pessoa Jurídica</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid row">
+                  <div class="field">
+                    <label class="req" for="f_nome">Nome *</label>
+                    <input id="f_nome" required>
+                  </div>
+                  <div class="field">
+                    <label for="f_nome_fantasia">Nome Fantasia</label>
+                    <input id="f_nome_fantasia">
+                  </div>
+                  <div class="field small">
+                    <label for="f_data_nasc">Data Abert/Nasc</label>
+                    <input id="f_data_nasc" placeholder="dd/mm/aaaa" maxlength="10">
+                  </div>
+                </div>
+
+                <div class="grid row">
+                  <div class="field span-2">
+                    <label for="f_homepage">HomePage</label>
+                    <input id="f_homepage" type="url" placeholder="https://exemplo.com">
+                  </div>
+                  <div class="field">
+                    <label class="req" for="f_email">Email *</label>
+                    <input id="f_email" type="email" placeholder="xxx@xxx.xxx" required>
+                  </div>
+                </div>
+
+                <div class="grid">
+                  <div class="field">
+                    <label for="f_nome_contato">Nome de Contato</label>
+                    <input id="f_nome_contato">
+                  </div>
+                  <div class="field">
+                    <label class="req" for="f_contato">Contato *</label>
+                    <input id="f_contato" placeholder="(xx) xxxxx-xxxx" maxlength="16" required>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- ENDEREÇO -->
+            <details class="section" open>
+              <summary>Endereço</summary>
+              <div class="content">
+                <div class="grid row">
+                  <div class="field small">
+                    <label for="f_cep">CEP</label>
+                    <input id="f_cep" placeholder="00000-000" maxlength="9">
+                  </div>
+                  <div class="field span-2">
+                    <label class="req" for="f_logradouro">Logradouro *</label>
+                    <input id="f_logradouro" required>
+                  </div>
+                  <div class="field mini">
+                    <label class="req" for="f_numero">Nº *</label>
+                    <input id="f_numero" required>
+                  </div>
+                  <div class="field">
+                    <label for="f_complemento">Complemento</label>
+                    <input id="f_complemento">
+                  </div>
+                </div>
+
+                <div class="grid">
+                  <div class="field">
+                    <label class="req" for="f_bairro">Bairro *</label>
+                    <input id="f_bairro" required>
+                  </div>
+                  <div class="field">
+                    <label class="req" for="f_cidade">Cidade *</label>
+                    <input id="f_cidade" required>
+                  </div>
+                  <div class="field">
+                    <label for="f_pais">País</label>
+                    <input id="f_pais" placeholder="Brasil">
+                  </div>
+                  <div class="field mini">
+                    <label class="req" for="f_uf">UF *</label>
+                    <input id="f_uf" placeholder="SP" maxlength="2" required style="text-transform:uppercase">
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="modal-foot">
+            <button type="button" class="btn-ghost" id="cancelBtn">Cancelar</button>
+            <button type="submit" class="btn-solid">Salvar</button>
+          </div>
+        </form>
+      </dialog>
+      <!-- ========== fim das adições HTML ========== -->
+
+    </main>
+  </div>
+</body>
+<script  defer src="pagina.js"></script>
+</html>
+
