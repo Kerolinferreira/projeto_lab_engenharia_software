@@ -36,11 +36,7 @@
   // Função para buscar o último ID do backend
   async function buscarUltimoClienteId() {
     try {
-      // Usa caminho absoluto e desabilita cache para obter o ID mais recente
-      const response = await fetch('/api/clientes/ultimoId', {
-        method: 'GET',
-        cache: 'no-store'
-      });
+      const response = await fetch('http://localhost:8081/api/clientes/ultimoId');
       if (!response.ok) throw new Error('Erro ao buscar último ID');
       
       // se o backend retorna um número puro
@@ -169,31 +165,11 @@
           </div>
         </details>
 
-
-
         <div class="actions">
           <button type="submit" id="submit">ENVIAR</button>
         </div>
       </form>
 
-<<<<<<< HEAD:api-cadastro-cliente/src/main/resources/static/index.html
-              <!-- ================= POPUP ================= -->
-<div id="popup-email" class="popup-overlay" style="display: none;">
-  <div class="popup-content">
-    <span id="popup-email-close">&times;</span>
-    <h2>Enviar Cadastro por E-mail</h2>
-    <p>Digite o e-mail que vai receber as informações do cliente:</p>
-    <input type="email" id="popup-email-input" placeholder="exemplo@teste.com" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cdd9ee; margin-bottom: 16px;">
-    <div class="popup-actions">
-      <button id="popup-email-ok">Enviar</button>
-    </div>
-  </div>
-</div>
-
-      <!-- Link para a lista de clientes. Agora a listagem foi movida para uma página
-           separada, evitando que tudo fique na mesma tela. -->
-      <p class="link-lista-clientes"><a href="lista.html">Ver lista de clientes cadastrados</a></p>
-=======
       <!-- ========== ADIÇÃO: Lista de Clientes (aba colapsável) ========== -->
       <details id="lista-clientes" class="section" open>
         <summary>Lista de Clientes</summary>
@@ -349,7 +325,6 @@
         </form>
       </dialog>
       <!-- ========== fim das adições HTML ========== -->
->>>>>>> develop:front/pagina.html
 
     </main>
   </div>
