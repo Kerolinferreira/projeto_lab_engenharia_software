@@ -49,12 +49,15 @@ const buscarDadosPorCNPJ = async (cnpj) => {
     }
 };
 
-inpCpfCnpj.addEventListener('blur', (event) => {
-    const cnpjinp = event.target.value;
-    if (cnpjinp) {
-        buscarDadosPorCNPJ(cnpjinp);
-    }
-});
+// Adiciona o listener de CNPJ apenas quando o campo existir (página de cadastro).
+if (inpCpfCnpj) {
+    inpCpfCnpj.addEventListener('blur', (event) => {
+        const cnpjinp = event.target.value;
+        if (cnpjinp) {
+            buscarDadosPorCNPJ(cnpjinp);
+        }
+    });
+}
 
 
 
@@ -99,12 +102,15 @@ const buscarEnderecoPorCEP = async (cep) => {
     }
 };
 
-inpCep.addEventListener('blur', (event) => {
-    const cepDigitado = event.target.value;
-    if (cepDigitado) {
-        buscarEnderecoPorCEP(cepDigitado);
-    }
-});
+// Adiciona o listener de CEP apenas quando o campo existir (página de cadastro).
+if (inpCep) {
+    inpCep.addEventListener('blur', (event) => {
+        const cepDigitado = event.target.value;
+        if (cepDigitado) {
+            buscarEnderecoPorCEP(cepDigitado);
+        }
+    });
+}
 
 
 
@@ -163,16 +169,28 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 ;
+
+/*POPUP*/
+
+const popupEmail = document.getElementById("popup-email");
+const popupEmailClose = document.getElementById("popup-email-close");
+const popupEmailOk = document.getElementById("popup-email-ok");
+const popupEmailInput = document.getElementById("popup-email-input");
+
+popupEmailClose.addEventListener("click", () => {
+    popupEmail.style.display = "none";
+});
                         
             submitButton.disabled = true;
             submitButton.textContent = 'Finalizando cadastro...';
 
             try {
-                const response = await fetch('http://localhost:8081/api/clientes', {
+                const response = await fetch('/api/clientes', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosfim),
-                    
+                    // Desabilita cache para garantir que o backend receba e retorne dados atualizados
+                    cache: 'no-store',
+                    body: JSON.stringify(dadosfim)
                 });
                 console.log("dados enviados");
 
@@ -180,11 +198,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     const errorData = await response.json();
                     throw new Error(errorData.message || `Erro ${response.status}`);
                 }
+
+               
+                setTimeout(() => {
+    popupEmailInput.value = '';
+    popupEmail.style.display = "flex";
+}, 0);
+
+
+popupEmailOk.addEventListener("click", async () => {
+    const emailDestino = popupEmailInput.value.trim();
+    if (!emailDestino || !emailDestino.includes("@")) {
+        alert("Digite um e-mail válido!");
+        return;
+    }
+
+    try {
+        await fetch('http://localhost:8081/api/clientes/email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ emailDestino }),
+  });
+
+        popupEmail.style.display = "none";
+        alert("E-mail enviado com sucesso!");
+    } catch (err) {
+        alert("Falha ao enviar e-mail: " + err.message);
+    }
+});
+
                 
                 const resultado = await response.json();
                 // Atualiza variável global
                 alert('Cadastro realizado com sucesso!');
                 form.reset();
+
+
 
 
             } catch (error) {
@@ -237,72 +286,63 @@ document.addEventListener('DOMContentLoaded', () => {
     uf:            document.getElementById('f_uf'),
   };
 
-  // Dados locais (exemplo). Depois você pode trocar por GET no backend.
-  let clients = [
-    {
-      id: 1,
-      codigo: '456',
-      razao: 'LTDA',
-      fantasia: 'LIMITADA',
-      cnpj: '00.000.000/0001-45',
-      // obrigatórios para o modal:
-      cpf_cnpj: '00.000.000/0001-45',
-      tipo: 'pj',
-      nome: 'LTDA',
-      email: 'contato@ltda.com.br',
-      contato: '(11) 90000-0001',
-      logradouro: 'Rua Exemplo',
-      numero: '100',
-      bairro: 'Centro',
-      cidade: 'MORRINHOS - GO',
-      uf: 'GO',
-      pais: 'Brasil',
-      // compat com tabela:
-      telefone: '(11) 90000-0001'
-    },
-    {
-      id: 2,
-      codigo: '451',
-      razao: 'Jumento',
-      fantasia: 'Animal',
-      cnpj: '62.95.000/0001-00',
-      // obrigatórios:
-      cpf_cnpj: '62.95.000/0001-00',
-      tipo: 'pj',
-      nome: 'Jorge',
-      email: 'contato@jorge.com.br',
-      contato: '(11) 90000-0002',
-      logradouro: 'Av. das Américas',
-      numero: '451',
-      bairro: 'Jardim',
-      cidade: 'ANGATUBA - SP',
-      uf: 'SP',
-      pais: 'Brasil',
-      // compat:
-      telefone: '(11) 90000-0002'
-    },
-    {
-      id: 3,
-      codigo: '2521',
-      razao: 'CONCETO M',
-      fantasia: 'CONCETO M',
-      cnpj: '11.111.111/0001-11',
-      // obrigatórios:
-      cpf_cnpj: '11.111.111/0001-11',
-      tipo: 'pj',
-      nome: 'CONCETO M',
-      email: 'comercial@concetom.com.br',
-      contato: '(11) 90000-0003',
-      logradouro: 'Rua das Flores',
-      numero: '2521',
-      bairro: 'Vila Nova',
-      cidade: 'BRACO DO NORTE - SC',
-      uf: 'SC',
-      pais: 'Brasil',
-      // compat:
-      telefone: '(11) 90000-0003'
+  // Lista de clientes carregada do backend.
+  // Em vez de utilizar um conjunto de dados de exemplo como anteriormente,
+  // inicializamos a lista vazia. Os dados serão obtidos através das
+  // chamadas à API Spring Boot expostas em `/api/clientes`.
+  let clients = [];
+
+  /**
+   * Busca todos os clientes cadastrados no backend. Esta função é
+   * chamada inicialmente e também utilizada ao limpar a pesquisa. Ela
+   * atualiza a variável global `clients` com o retorno da API e,
+   * em seguida, invoca o renderizador da tabela.
+   */
+  async function fetchAllClients() {
+    if (!TBODY) return;
+    try {
+      // Use caminho absoluto e desabilite cache para garantir dados atualizados
+      const resp = await fetch('/api/clientes/listarClientes', {
+        method: 'GET',
+        cache: 'no-store'
+      });
+      if (!resp.ok) throw new Error('Falha ao carregar clientes');
+      clients = await resp.json();
+      render(SEARCH_INP?.value || '');
+    } catch (err) {
+      console.error(err);
+      clients = [];
+      render('');
     }
-  ];
+  }
+
+  /**
+   * Realiza uma consulta na API para buscar clientes pelo texto fornecido.
+   * A pesquisa considera id, nome ou cidade, conforme implementado
+   * no serviço do backend. Se a pesquisa falhar, mantém a lista
+   * atual e apenas registra o erro no console.
+   * @param {string} texto termo de busca
+   */
+  async function fetchSearch(texto) {
+    if (!TBODY) return;
+    const q = (texto || '').trim();
+    // Se não houver texto de busca, re-carrega todos os clientes
+    if (!q) {
+      await fetchAllClients();
+      return;
+    }
+    try {
+      const resp = await fetch('/api/clientes/buscarPorTexto?texto=' + encodeURIComponent(q), {
+        method: 'GET',
+        cache: 'no-store'
+      });
+      if (!resp.ok) throw new Error('Falha na busca');
+      clients = await resp.json();
+      render(q);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   // Render da tabela
   function render(filter = '') {
@@ -312,20 +352,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const filtered = clients.filter(c => {
       if (!q) return true;
-      return [c.codigo, c.razao, c.fantasia, c.cnpj, c.cidade]
-        .some(v => v && String(v).toLowerCase().includes(q));
+      // Gera um array com os campos pesquisáveis: id, nome, nome fantasia,
+      // CPF/CNPJ e cidade do endereço. Qualquer correspondência parcial
+      // (case-insensitive) manterá o registro na lista filtrada.
+      const cidade = (c.endereco && c.endereco.cidade) || '';
+      return [
+        c.id,
+        c.nome,
+        c.nome_fantasia,
+        c.cpf_cnpj,
+        cidade
+      ].some(v => v && String(v).toLowerCase().includes(q));
     });
 
     if (EMPTY_EL) EMPTY_EL.hidden = filtered.length !== 0;
 
     for (const c of filtered) {
       const tr = document.createElement('tr');
+      // Para exibir corretamente os dados vindos do backend, mapeamos os campos
+      // da API para as colunas esperadas. O código passa a exibir o ID gerado,
+      // o nome como razão social, o nome fantasia (quando presente), o CPF/CNPJ
+      // e a cidade do endereço.
       tr.innerHTML = `
-        <td><span class="mono">${escapeHtml(c.codigo || '')}</span></td>
-        <td>${escapeHtml(c.razao || '')}</td>
-        <td>${escapeHtml(c.fantasia || '')}</td>
-        <td><span class="mono">${escapeHtml(c.cnpj || '')}</span></td>
-        <td>${escapeHtml(c.cidade || '')}</td>
+        <td><span class="mono">${escapeHtml(c.id ?? '')}</span></td>
+        <td>${escapeHtml(c.nome || '')}</td>
+        <td>${escapeHtml(c.nome_fantasia || '')}</td>
+        <td><span class="mono">${escapeHtml(c.cpf_cnpj || '')}</span></td>
+        <td>${escapeHtml((c.endereco && c.endereco.cidade) || '')}</td>
         <td>
           <div class="actions">
             <button type="button" class="table-btn edit">Editar</button>
@@ -351,8 +404,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Busca / limpar
-  CLEAR_BTN?.addEventListener('click', () => { if (SEARCH_INP) { SEARCH_INP.value = ''; } render(''); });
-  SEARCH_INP?.addEventListener('input', (e) => render(e.target.value));
+  // Ao limpar a busca, recarrega todos os clientes do backend.
+  CLEAR_BTN?.addEventListener('click', async () => {
+    if (SEARCH_INP) { SEARCH_INP.value = ''; }
+    await fetchAllClients();
+  });
+  // A cada alteração no campo de pesquisa, envia a busca para a API.
+  SEARCH_INP?.addEventListener('input', (e) => {
+    const texto = e.target.value;
+    fetchSearch(texto);
+  });
 
   // Abrir modal e preencher
   function openEdit(id) {
@@ -361,23 +422,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     FM.idHidden.value       = c.id;
     FM.idDisplay.value      = c.id;
-    FM.cpf_cnpj.value       = c.cpf_cnpj ?? c.cnpj ?? '';
-    FM.tipo.value           = c.tipo ?? (c.cnpj ? 'pj' : 'pf');
-    FM.nome.value           = c.nome ?? c.razao ?? '';
-    FM.nome_fantasia.value  = c.nome_fantasia ?? c.fantasia ?? '';
-    FM.data_nasc.value      = c.data_abertura_nascimento ?? c.data ?? '';
-    FM.homepage.value       = c.homepage ?? '';
-    FM.email.value          = c.email ?? '';
-    FM.nome_contato.value   = c.nome_contato ?? '';
-    FM.contato.value        = c.contato ?? c.telefone ?? '';
-    FM.cep.value            = c.cep ?? '';
-    FM.logradouro.value     = c.logradouro ?? '';
-    FM.numero.value         = c.numero ?? '';
-    FM.complemento.value    = c.complemento ?? '';
-    FM.bairro.value         = c.bairro ?? '';
-    FM.cidade.value         = c.cidade ?? '';
-    FM.pais.value           = c.pais ?? 'Brasil';
-    FM.uf.value             = (c.uf ?? '').toString().toUpperCase();
+    // Preenche os campos com os dados retornados pela API. O DTO do backend
+    // utiliza nomes de campo diferentes do mock antigo (e.g. endereco em um objeto).
+    FM.cpf_cnpj.value       = c.cpf_cnpj || '';
+    FM.tipo.value           = c.tipo || '';
+    FM.nome.value           = c.nome || '';
+    FM.nome_fantasia.value  = c.nome_fantasia || '';
+    FM.data_nasc.value      = c.data_abertura_nascimento || '';
+    FM.homepage.value       = c.homepage || '';
+    FM.email.value          = c.email || '';
+    FM.nome_contato.value   = c.nome_contato || '';
+    FM.contato.value        = c.contato || '';
+    const end = c.endereco || {};
+    FM.cep.value            = end.cep || '';
+    FM.logradouro.value     = end.logradouro || '';
+    FM.numero.value         = end.numero || '';
+    FM.complemento.value    = end.complemento || '';
+    FM.bairro.value         = end.bairro || '';
+    FM.cidade.value         = end.cidade || '';
+    FM.pais.value           = end.pais || 'Brasil';
+    FM.uf.value             = (end.uf || '').toString().toUpperCase();
 
     DIALOG?.showModal();
   }
@@ -409,51 +473,97 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!el || !el.value.trim()) { alert(`Preencha o campo obrigatório: ${label}.`); el?.focus(); return; }
     }
 
-    const updated = {
-      id,
-      cpf_cnpj:  FM.cpf_cnpj.value.trim(),
-      tipo:      FM.tipo.value,
-      nome:      FM.nome.value.trim(),
-      nome_fantasia: FM.nome_fantasia.value.trim(),
-      data_abertura_nascimento: FM.data_nasc.value.trim(),
-      homepage:  FM.homepage.value.trim(),
-      email:     FM.email.value.trim(),
-      nome_contato: FM.nome_contato.value.trim(),
-      contato:   FM.contato.value.trim(),
-      cep:       FM.cep.value.trim(),
-      logradouro:FM.logradouro.value.trim(),
-      numero:    FM.numero.value.trim(),
-      complemento:FM.complemento.value.trim(),
-      bairro:    FM.bairro.value.trim(),
-      cidade:    FM.cidade.value.trim(),
-      pais:      FM.pais.value.trim() || 'Brasil',
-      uf:        FM.uf.value.trim().toUpperCase(),
-
-      // compat com tabela
-      razao:     FM.nome.value.trim(),
-      fantasia:  FM.nome_fantasia.value.trim(),
-      cnpj:      FM.cpf_cnpj.value.trim(),
-      telefone:  FM.contato.value.trim(),
+    // Monta o payload de atualização conforme o DTO de PUT do backend.
+    const updatedPayload = {
+      cpf_cnpj: FM.cpf_cnpj.value.trim(),
+      tipo: FM.tipo.value,
+      nome: FM.nome.value.trim(),
+      nome_fantasia: FM.nome_fantasia.value.trim() || null,
+      data_abertura_nascimento: FM.data_nasc.value.trim() || null,
+      homepage: FM.homepage.value.trim() || null,
+      email: FM.email.value.trim(),
+      nome_contato: FM.nome_contato.value.trim() || null,
+      contato: FM.contato.value.trim(),
+      // mantém a loja existente, caso presente na lista, ou utiliza "01" por padrão
+      loja: (clients.find(c => c.id === id)?.loja) || '01',
+      endereco: {
+        cep: FM.cep.value.trim() || null,
+        logradouro: FM.logradouro.value.trim(),
+        numero: FM.numero.value.trim(),
+        complemento: FM.complemento.value.trim() || null,
+        bairro: FM.bairro.value.trim(),
+        cidade: FM.cidade.value.trim(),
+        uf: FM.uf.value.trim().toUpperCase(),
+        pais: FM.pais.value.trim() || 'Brasil'
+      }
     };
 
-    const idx = clients.findIndex(c => c.id === id);
-    if (idx < 0) { alert('Cliente não encontrado.'); return; }
-    clients[idx] = { ...clients[idx], ...updated };
-
-    DIALOG?.close();
-    render(SEARCH_INP?.value || '');
+    // Envia a alteração para o backend e aguarda a conclusão
+    (async () => {
+      try {
+        const resp = await fetch(`/api/clientes/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          cache: 'no-store',
+          body: JSON.stringify(updatedPayload)
+        });
+        if (!resp.ok) {
+          let errMsg = `Erro ao atualizar cliente (status ${resp.status})`;
+          try {
+            const errData = await resp.json();
+            errMsg = errData.message || errMsg;
+          } catch (_) {}
+          throw new Error(errMsg);
+        }
+        const updatedClient = await resp.json();
+        // Atualiza lista local para refletir a alteração
+        const idx = clients.findIndex(c => c.id === id);
+        if (idx >= 0) {
+          clients[idx] = updatedClient;
+        }
+        DIALOG?.close();
+        render(SEARCH_INP?.value || '');
+      } catch (err) {
+        console.error(err);
+        alert(err.message);
+      }
+    })();
   });
 
   // Excluir
   function delClient(id) {
     const c = clients.find(x => x.id === id);
     if (!c) return;
-    if (confirm(`Excluir o cliente ${c.razao || c.nome || ''} (código ${c.codigo || ''})?`)) {
-      clients = clients.filter(x => x.id !== id);
-      render(SEARCH_INP?.value || '');
+    const nomeExibido = c.nome || c.razao || '';
+    if (confirm(`Excluir o cliente ${nomeExibido} (ID ${c.id})?`)) {
+      // solicita exclusão ao backend
+      (async () => {
+        try {
+        const resp = await fetch(`/api/clientes/${id}`, {
+          method: 'DELETE',
+          cache: 'no-store'
+        });
+          if (!resp.ok) {
+            let errMsg = `Erro ao excluir cliente (status ${resp.status})`;
+            try {
+              const errData = await resp.json();
+              errMsg = errData.message || errMsg;
+            } catch (_) {}
+            throw new Error(errMsg);
+          }
+          // remove localmente e atualiza a tabela
+          clients = clients.filter(x => x.id !== id);
+          render(SEARCH_INP?.value || '');
+        } catch (err) {
+          console.error(err);
+          alert(err.message);
+        }
+      })();
     }
   }
 
-  // Inicializa render ao carregar DOM
-  document.addEventListener('DOMContentLoaded', () => render());
+  // Inicializa lista ao carregar DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchAllClients();
+  });
 })();

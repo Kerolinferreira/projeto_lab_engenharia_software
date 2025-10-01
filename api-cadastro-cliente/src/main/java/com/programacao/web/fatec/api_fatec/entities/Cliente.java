@@ -58,7 +58,7 @@ public class Cliente {
     @Column(nullable = true, length=60)
     private String homepage;
 
-    @Column(nullable= false, length=20)
+    @Column(nullable= false, length=50)
     private String email;
 
     @Column(nullable = true, length =30)
