@@ -9,6 +9,8 @@ import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePostDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClientePutDto;
 import com.programacao.web.fatec.api_fatec.domain.cliente.dto.ClienteResponseDto;
 import com.programacao.web.fatec.api_fatec.entities.Cliente;
+import com.programacao.web.fatec.api_fatec.domain.email.EmailDestinoDto;
+import com.programacao.web.fatec.api_fatec.domain.email.EmailService;
 
 import java.util.List;
 
@@ -50,6 +52,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository; 
+
+    @Autowired
+    private EmailService emailService;
 
     /**
      * Lista todos os clientes cadastrados.
@@ -129,4 +134,34 @@ public ResponseEntity<List<ClienteResponseDto>> buscarPorTexto(@RequestParam Str
     return (ultimoCliente != null) ? ultimoCliente.getId() : 0L;
 }
 
+@PostMapping("/email")
+public ResponseEntity<String> enviarUltimoClientePorEmail(@RequestBody EmailDestinoDto dto) {
+    ClienteResponseDto ultimoCliente = clienteService.buscarUltimoCliente();
+
+    String conteudo = String.format(
+        "📌 Último cliente cadastrado:\n\n" +
+        "ID: %d\n" +
+        "Nome: %s\n" +
+        "CPF/CNPJ: %s\n" +
+        "Tipo: %s\n" +
+        "Email: %s\n" +
+        "Contato: %s\n" +
+        "Endereço: %s, %s - %s, %s - %s\n\n",
+        ultimoCliente.getId(),
+        ultimoCliente.getNome(),
+        ultimoCliente.getCpf_cnpj(),
+        ultimoCliente.getTipo(),
+        ultimoCliente.getEmail(),
+        ultimoCliente.getContato(),
+        ultimoCliente.getEndereco().getLogradouro(),
+        ultimoCliente.getEndereco().getNumero(),
+        ultimoCliente.getEndereco().getBairro(),
+        ultimoCliente.getEndereco().getCidade(),
+        ultimoCliente.getEndereco().getUf()
+    );
+
+    emailService.enviarEmail(dto.getEmailDestino(), "Último Cliente Cadastrado", conteudo);
+
+    return ResponseEntity.ok("E-mail enviado para " + dto.getEmailDestino());
+}
 }

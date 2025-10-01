@@ -155,5 +155,14 @@ public class ClienteService {
             .stream()
             .map(this::toResponseDto)
             .collect(Collectors.toList());
-}
+    }
+    
+    public ClienteResponseDto buscarUltimoCliente() {
+    Cliente cliente = clienteRepository.findTopByOrderByIdDesc();
+    if (cliente == null) {
+        throw new ResourceNotFoundException("Cliente", "id", 0L);
+    }
+    return toResponseDto(cliente);
+    }
+
 }

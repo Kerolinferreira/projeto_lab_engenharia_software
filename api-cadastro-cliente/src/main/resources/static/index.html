@@ -169,10 +169,25 @@
           </div>
         </details>
 
+
+
         <div class="actions">
           <button type="submit" id="submit">ENVIAR</button>
         </div>
       </form>
+
+              <!-- ================= POPUP ================= -->
+<div id="popup-email" class="popup-overlay" style="display: none;">
+  <div class="popup-content">
+    <span id="popup-email-close">&times;</span>
+    <h2>Enviar Cadastro por E-mail</h2>
+    <p>Digite o e-mail que vai receber as informações do cliente:</p>
+    <input type="email" id="popup-email-input" placeholder="exemplo@teste.com" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cdd9ee; margin-bottom: 16px;">
+    <div class="popup-actions">
+      <button id="popup-email-ok">Enviar</button>
+    </div>
+  </div>
+</div>
 
       <!-- Link para a lista de clientes. Agora a listagem foi movida para uma página
            separada, evitando que tudo fique na mesma tela. -->

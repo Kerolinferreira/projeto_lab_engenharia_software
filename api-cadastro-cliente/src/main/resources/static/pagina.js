@@ -169,6 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 ;
+
+/*POPUP*/
+
+const popupEmail = document.getElementById("popup-email");
+const popupEmailClose = document.getElementById("popup-email-close");
+const popupEmailOk = document.getElementById("popup-email-ok");
+const popupEmailInput = document.getElementById("popup-email-input");
+
+popupEmailClose.addEventListener("click", () => {
+    popupEmail.style.display = "none";
+});
                         
             submitButton.disabled = true;
             submitButton.textContent = 'Finalizando cadastro...';
@@ -187,11 +198,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     const errorData = await response.json();
                     throw new Error(errorData.message || `Erro ${response.status}`);
                 }
+
+               
+                setTimeout(() => {
+    popupEmailInput.value = '';
+    popupEmail.style.display = "flex";
+}, 0);
+
+
+popupEmailOk.addEventListener("click", async () => {
+    const emailDestino = popupEmailInput.value.trim();
+    if (!emailDestino || !emailDestino.includes("@")) {
+        alert("Digite um e-mail válido!");
+        return;
+    }
+
+    try {
+        await fetch('http://localhost:8081/api/clientes/email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ emailDestino }),
+  });
+
+        popupEmail.style.display = "none";
+        alert("E-mail enviado com sucesso!");
+    } catch (err) {
+        alert("Falha ao enviar e-mail: " + err.message);
+    }
+});
+
                 
                 const resultado = await response.json();
                 // Atualiza variável global
                 alert('Cadastro realizado com sucesso!');
                 form.reset();
+
+
 
 
             } catch (error) {
