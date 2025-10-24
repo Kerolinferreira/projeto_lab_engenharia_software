@@ -11,7 +11,7 @@
   <div class="page">
     <header class="header">
       <div>
-        <h1>Cadastro</h1>
+        <h1>Cadastro de Cliente</h1>
         <p>Preencha os dados de cadastro</p>
       </div>
       <div class="user">Usuário: <strong>Teste</strong></div>
@@ -176,7 +176,7 @@
         </div>
       </form>
 
-<<<<<<< HEAD:api-cadastro-cliente/src/main/resources/static/index.html
+
               <!-- ================= POPUP ================= -->
 <div id="popup-email" class="popup-overlay" style="display: none;">
   <div class="popup-content">
@@ -193,163 +193,6 @@
       <!-- Link para a lista de clientes. Agora a listagem foi movida para uma página
            separada, evitando que tudo fique na mesma tela. -->
       <p class="link-lista-clientes"><a href="lista.html">Ver lista de clientes cadastrados</a></p>
-=======
-      <!-- ========== ADIÇÃO: Lista de Clientes (aba colapsável) ========== -->
-      <details id="lista-clientes" class="section" open>
-        <summary>Lista de Clientes</summary>
-        <div class="content">
-          <div class="tools-row" style="margin-top:8px">
-            <label for="search" class="sr-only">Pesquisar</label>
-            <input id="search" type="search" placeholder="Pesquisar (código, razão, fantasia, CNPJ, cidade)..." />
-            <button id="clearBtn" type="button" class="btn-ghost">Limpar</button>
-          </div>
-
-          <div class="table-wrap" role="region" aria-live="polite" aria-label="Tabela de clientes">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="width:90px">Código</th>
-                  <th>Razão Social</th>
-                  <th>Fantasia</th>
-                  <th style="width:180px">CNPJ/CPF</th>
-                  <th>Cidade</th>
-                  <th style="width:180px">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tbody"></tbody>
-            </table>
-          </div>
-          <div id="empty" class="empty" hidden>Nenhum cliente encontrado.</div>
-        </div>
-      </details>
-
-      <!-- ========== ADIÇÃO: Modal de EDIÇÃO (centralizado, ID travado) ========== -->
-      <dialog id="editDialog" aria-labelledby="dialogTitle">
-        <form id="editForm" method="dialog">
-          <div class="modal-head">
-            <h2 id="dialogTitle">Editar cliente</h2>
-            <button type="button" id="closeDialog" class="btn-ghost">✕</button>
-          </div>
-
-          <div class="modal-body" style="display:block">
-            <!-- ID imutável -->
-            <input type="hidden" id="f_id">
-            <div class="field small" style="margin-bottom:10px">
-              <label for="f_id_display">ID</label>
-              <input id="f_id_display" disabled aria-disabled="true">
-            </div>
-
-            <!-- DADOS GERAIS -->
-            <details class="section" open>
-              <summary>Dados Gerais</summary>
-              <div class="content">
-                <div class="grid row">
-                  <div class="field span-2">
-                    <label class="req" for="f_cpf_cnpj">CPF / CNPJ *</label>
-                    <input id="f_cpf_cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00" required>
-                  </div>
-                  <div class="field">
-                    <label class="req" for="f_tipo">Tipo *</label>
-                    <select id="f_tipo" required>
-                      <option value="" disabled selected>Selecione...</option>
-                      <option value="pf">Pessoa Física</option>
-                      <option value="pj">Pessoa Jurídica</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="grid row">
-                  <div class="field">
-                    <label class="req" for="f_nome">Nome *</label>
-                    <input id="f_nome" required>
-                  </div>
-                  <div class="field">
-                    <label for="f_nome_fantasia">Nome Fantasia</label>
-                    <input id="f_nome_fantasia">
-                  </div>
-                  <div class="field small">
-                    <label for="f_data_nasc">Data Abert/Nasc</label>
-                    <input id="f_data_nasc" placeholder="dd/mm/aaaa" maxlength="10">
-                  </div>
-                </div>
-
-                <div class="grid row">
-                  <div class="field span-2">
-                    <label for="f_homepage">HomePage</label>
-                    <input id="f_homepage" type="url" placeholder="https://exemplo.com">
-                  </div>
-                  <div class="field">
-                    <label class="req" for="f_email">Email *</label>
-                    <input id="f_email" type="email" placeholder="xxx@xxx.xxx" required>
-                  </div>
-                </div>
-
-                <div class="grid">
-                  <div class="field">
-                    <label for="f_nome_contato">Nome de Contato</label>
-                    <input id="f_nome_contato">
-                  </div>
-                  <div class="field">
-                    <label class="req" for="f_contato">Contato *</label>
-                    <input id="f_contato" placeholder="(xx) xxxxx-xxxx" maxlength="16" required>
-                  </div>
-                </div>
-              </div>
-            </details>
-
-            <!-- ENDEREÇO -->
-            <details class="section" open>
-              <summary>Endereço</summary>
-              <div class="content">
-                <div class="grid row">
-                  <div class="field small">
-                    <label for="f_cep">CEP</label>
-                    <input id="f_cep" placeholder="00000-000" maxlength="9">
-                  </div>
-                  <div class="field span-2">
-                    <label class="req" for="f_logradouro">Logradouro *</label>
-                    <input id="f_logradouro" required>
-                  </div>
-                  <div class="field mini">
-                    <label class="req" for="f_numero">Nº *</label>
-                    <input id="f_numero" required>
-                  </div>
-                  <div class="field">
-                    <label for="f_complemento">Complemento</label>
-                    <input id="f_complemento">
-                  </div>
-                </div>
-
-                <div class="grid">
-                  <div class="field">
-                    <label class="req" for="f_bairro">Bairro *</label>
-                    <input id="f_bairro" required>
-                  </div>
-                  <div class="field">
-                    <label class="req" for="f_cidade">Cidade *</label>
-                    <input id="f_cidade" required>
-                  </div>
-                  <div class="field">
-                    <label for="f_pais">País</label>
-                    <input id="f_pais" placeholder="Brasil">
-                  </div>
-                  <div class="field mini">
-                    <label class="req" for="f_uf">UF *</label>
-                    <input id="f_uf" placeholder="SP" maxlength="2" required style="text-transform:uppercase">
-                  </div>
-                </div>
-              </div>
-            </details>
-          </div>
-
-          <div class="modal-foot">
-            <button type="button" class="btn-ghost" id="cancelBtn">Cancelar</button>
-            <button type="submit" class="btn-solid">Salvar</button>
-          </div>
-        </form>
-      </dialog>
-      <!-- ========== fim das adições HTML ========== -->
->>>>>>> develop:front/pagina.html
 
     </main>
   </div>
