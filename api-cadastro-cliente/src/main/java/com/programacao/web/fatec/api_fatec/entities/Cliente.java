@@ -1,13 +1,7 @@
 package com.programacao.web.fatec.api_fatec.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -27,7 +20,7 @@ import lombok.Setter;
  * Um cliente possui um id, um nome e um endereço.
  */
 @Entity
-@Table(name="cadastro_cliente")
+@Table(name="cadastro_cliente", schema="cto")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,25 +39,25 @@ public class Cliente {
     @Column(nullable = false, length = 2)
     private String tipo;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 255)
     private String nome;
 
-    @Column(nullable = true, length = 60)
+    @Column(nullable = true, length = 255)
     private String nome_fantasia;
 
     @Column(nullable = true)
     private LocalDate data_abertura_nascimento;
 
-    @Column(nullable = true, length=60)
+    @Column(nullable = true, length=255)
     private String homepage;
 
-    @Column(nullable= false, length=50)
+    @Column(nullable= false, length=255)
     private String email;
 
-    @Column(nullable = true, length =30)
+    @Column(nullable = true, length =50)
     private String nome_contato;
     
-    @Column(nullable = false, length =15)
+    @Column(nullable = false, length =20)
     private String contato;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
@@ -81,7 +74,9 @@ public class Cliente {
         String nome_contato,
         String contato,
         Endereco endereco
-) {
+) 
+
+{
     this.cpf_cnpj = cpf_cnpj;
     this.tipo = tipo;
     this.nome = nome;
