@@ -1,3 +1,4 @@
+
 package com.programacao.web.fatec.api_fatec.entities;
 
 import jakarta.persistence.Column;
@@ -16,7 +17,7 @@ import lombok.Setter;
  * Está associado de forma 1:1 com Cliente.
  */
 @Entity
-@Table(name="cadastro_endereco")
+@Table(name="cadastro_endereco",schema="cto")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,19 +33,19 @@ public class Endereco {
     @Column(nullable = true, length = 15)
     private String cep;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String logradouro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5)
     private String numero;
 
     @Column(nullable = true)
     private String complemento;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 150)
     private String bairro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String cidade;
 
     @Column(nullable = false, length = 2)
