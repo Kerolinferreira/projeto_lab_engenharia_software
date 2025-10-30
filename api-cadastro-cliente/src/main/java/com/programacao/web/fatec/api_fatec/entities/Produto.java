@@ -23,25 +23,29 @@ public class Produto {
     private Long id; 
     @Column(nullable = false)
     private String nome_produto;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 255)
     private String descricao;
     @Column(nullable = false)
     private int qtd_estoque;
     @Column(nullable = false)
     private double preco;
+    @Column(nullable =true)
+    private String modelo;
 
     {
         this.nome_produto = nome_produto;
         this.descricao = descricao;
         this.qtd_estoque = qtd_estoque;
         this.preco = preco;
+        this.modelo = modelo;
     }
     
-    public Produto (String nome_produto, String descricao, int qtd_estoque, double preco) {
+    public Produto (String nome_produto, String descricao, int qtd_estoque, double preco, String modelo) {
         this.nome_produto = nome_produto;
         this.descricao = descricao;
         this.qtd_estoque = qtd_estoque;
         this.preco = preco;
+        this.modelo = modelo;
     }
     
 

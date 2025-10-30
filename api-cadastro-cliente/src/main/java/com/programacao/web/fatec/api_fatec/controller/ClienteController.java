@@ -139,7 +139,7 @@ public ResponseEntity<String> enviarUltimoClientePorEmail(@RequestBody EmailDest
     ClienteResponseDto ultimoCliente = clienteService.buscarUltimoCliente();
 
     String conteudo = String.format(
-        "📌 Último cliente cadastrado:\n\n" +
+        "Último cliente cadastrado:\n\n" +
         "ID: %d\n" +
         "Nome: %s\n" +
         "CPF/CNPJ: %s\n" +

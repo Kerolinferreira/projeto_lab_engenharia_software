@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO para criação de cliente (POST).
+ * DTO para criação de produto (POST).
  * Todos os campos obrigatórios estão anotados com validações.
  */
 
@@ -18,4 +18,5 @@ public class ProdutoPostDto {
     private String descricao;
     private int qtd_estoque;
     private double preco;
+    private String modelo;
 }
