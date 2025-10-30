@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Produtos</title>
+
+  <!-- Importa o CSS global e o específico -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./produto.css">
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <h1>Cadastro de Produtos</h1>
+        <p>Preencha as informações do produto</p>
+      </div>
+      <div class="user">Usuário: <strong>Teste</strong></div>
+    </header>
+
+    <main>
+      <form id="produtoForm" novalidate>
+        <details class="section" open>
+          <summary>Dados do Produto</summary>
+          <div class="content">
+
+            <div class="grid row">
+              <div class="field span-2">
+                <label for="nome_produto">Nome do Produto *</label>
+                <input id="nome_produto" name="nome_produto" maxlength="80"
+                       placeholder="Nome do produto" required>
+              </div>
+            </div>
+
+            <div class="grid row">
+              <div class="field span-3">
+                <label for="descricao">Descrição *</label>
+                <textarea id="descricao" name="descricao" rows="5" maxlength="255"
+                          placeholder="Descrição detalhada do produto (máx. 255 caracteres)"
+                          required></textarea>
+              </div>
+            </div>
+
+            <div class="grid row">
+              <div class="field">
+                <label for="qtd_estoque">Quantidade em Estoque *</label>
+                <input id="qtd_estoque" name="qtd_estoque" type="number" min="0"
+                       placeholder="Ex: 100" required>
+              </div>
+              <div class="field">
+                <label for="preco">Preço (R$) *</label>
+                <input id="preco" name="preco" type="number" step="0.01" min="0"
+                       placeholder="Ex: 10.00" required>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <div class="actions">
+          <button type="submit">SALVAR PRODUTO</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById('produtoForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const produto = {
+        nome_produto: form.nome_produto.value.trim(),
+        descricao: form.descricao.value.trim(),
+        qtd_estoque: parseInt(form.qtd_estoque.value),
+        preco: parseFloat(form.preco.value)
+      };
+
+      console.log('Produto enviado (stub):', produto);
+      alert('Produto cadastrado com sucesso! (stub — integrar API depois)');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
