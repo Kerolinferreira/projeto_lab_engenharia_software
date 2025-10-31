@@ -19,4 +19,5 @@ public class ProdutoPutDto {
     private String descricao;
     private int qtd_estoque;
     private double preco;
+    private String modelo;
 }

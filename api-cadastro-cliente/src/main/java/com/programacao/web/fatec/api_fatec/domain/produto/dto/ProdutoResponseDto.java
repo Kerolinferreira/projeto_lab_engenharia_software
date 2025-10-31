@@ -3,12 +3,15 @@
 package com.programacao.web.fatec.api_fatec.domain.produto.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+
 
 /**
  * DTO de saída para retornar produtos na API.
@@ -20,4 +23,5 @@ public class ProdutoResponseDto {
     private String descricao;
     private int qtd_estoque;
     private double preco;
+    private String modelo;
 }
