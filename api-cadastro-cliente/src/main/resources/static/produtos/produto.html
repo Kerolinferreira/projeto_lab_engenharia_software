@@ -26,6 +26,7 @@
           <summary>Dados do Produto</summary>
           <div class="content">
 
+            <!-- NOME DO PRODUTO -->
             <div class="grid row">
               <div class="field span-2">
                 <label for="nome_produto">Nome do Produto *</label>
@@ -34,8 +35,32 @@
               </div>
             </div>
 
+            <!-- NOVOS CAMPOS -->
+            <div class="grid row">
+              <div class="field">
+                <label for="modelo">Modelo</label>
+                <input id="modelo" name="modelo" maxlength="80"
+                       placeholder="Ex: Sofá em U, Poltrona...">
+              </div>
+              <div class="field">
+                <label for="tamanho">Tamanho</label>
+                <input id="tamanho" name="tamanho" maxlength="50"
+                       placeholder="Ex: 1 lugar, 2 lugares...">
+              </div>
+              <div class="field">
+                <label for="cor">Cor</label>
+                <input id="cor" name="cor" maxlength="50"
+                       placeholder="Ex: Bege, Azul, Cinza...">
+              </div>
+            </div>
+
+            <!-- BOTÃO GERAR + DESCRIÇÃO -->
             <div class="grid row">
               <div class="field span-3">
+                <div class="left-actions">
+                  <button type="button" class="btn-gerar">GERAR</button>
+                </div>
+
                 <label for="descricao">Descrição *</label>
                 <textarea id="descricao" name="descricao" rows="5" maxlength="255"
                           placeholder="Descrição detalhada do produto (máx. 255 caracteres)"
@@ -43,6 +68,7 @@
               </div>
             </div>
 
+            <!-- QUANTIDADE E PREÇO -->
             <div class="grid row">
               <div class="field">
                 <label for="qtd_estoque">Quantidade em Estoque *</label>
@@ -55,7 +81,6 @@
                        placeholder="Ex: 10.00" required>
               </div>
             </div>
-
           </div>
         </details>
 
@@ -73,6 +98,9 @@
 
       const produto = {
         nome_produto: form.nome_produto.value.trim(),
+        modelo: form.modelo.value.trim(),
+        tamanho: form.tamanho.value.trim(),
+        cor: form.cor.value.trim(),
         descricao: form.descricao.value.trim(),
         qtd_estoque: parseInt(form.qtd_estoque.value),
         preco: parseFloat(form.preco.value)
