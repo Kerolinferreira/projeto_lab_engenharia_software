@@ -1,0 +1,9 @@
+/* Estilos específicos de pedidos (reaproveitando tokens do style.css) */
+
+.muted{ color: var(--muted); font-size: 12px; }
+.search-wrap{ display:flex; gap:8px; align-items:center }
+.totais{ display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end; margin-top:12px }
+.totais .field{ min-width:160px }
+.totais .totalzao input{ font-weight:800; font-size:18px }
+.table td .row-actions{ display:flex; gap:6px }
+.bad-num{ border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15) !important }

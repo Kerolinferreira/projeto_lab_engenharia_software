@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Pedidos</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="./pedidos.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <h1>Cadastro de Pedidos</h1>
+        <p>Preencha os dados do pedido</p>
+      </div>
+      <div class="user">Usuário: <strong>Teste</strong></div>
+    </header>
+    <main>
+      <form id="pedidoForm" novalidate>
+        <!-- DADOS DO PEDIDO -->
+        <details class="section" open>
+          <summary>Dados do Pedido</summary>
+          <div class="content">
+            <div class="grid row">
+              <div class="field small">
+                <label for="numero">Nº Pedido</label>
+                <input id="numero" name="numero" placeholder="Auto/Sequencial" disabled aria-disabled="true">
+              </div>
+              <div class="field">
+                <label class="req" for="data_pedido">Data *</label>
+                <input id="data_pedido" name="data_pedido" type="date" required>
+              </div>
+              <div class="field">
+                <label class="req" for="status">Status *</label>
+                <select id="status" name="status" required>
+                  <option value="" disabled selected>Selecione...</option>
+                  <option value="aberto">Aberto</option>
+                  <option value="em_producao">Em produção</option>
+                  <option value="faturado">Faturado</option>
+                  <option value="entregue">Entregue</option>
+                  <option value="cancelado">Cancelado</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- CLIENTE -->
+        <details class="section" open>
+          <summary>Cliente</summary>
+          <div class="content">
+            <div class="grid row">
+              <div class="field">
+                <label class="req" for="cliente_busca">Buscar cliente *</label>
+                <div class="search-wrap">
+                  <input id="cliente_busca" placeholder="Digite nome, CNPJ, cidade..." autocomplete="off" required>
+                  <button type="button" class="btn-ghost" id="btnBuscarCliente">Buscar</button>
+                </div>
+                <small class="muted">Dica: integre esta busca com a sua API (GET /clientes?query=...)</small>
+              </div>
+              <div class="field small">
+                <label for="cliente_id">ID</label>
+                <input id="cliente_id" name="cliente_id" placeholder="—" disabled aria-disabled="true">
+              </div>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label for="cliente_razao">Razão Social</label>
+                <input id="cliente_razao" name="cliente_razao" disabled aria-disabled="true">
+              </div>
+              <div class="field">
+                <label for="cliente_fantasia">Fantasia</label>
+                <input id="cliente_fantasia" name="cliente_fantasia" disabled aria-disabled="true">
+              </div>
+              <div class="field">
+                <label for="cliente_cnpj">CNPJ/CPF</label>
+                <input id="cliente_cnpj" name="cliente_cnpj" disabled aria-disabled="true">
+              </div>
+              <div class="field">
+                <label for="cliente_cidade">Cidade</label>
+                <input id="cliente_cidade" name="cliente_cidade" disabled aria-disabled="true">
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- ITENS -->
+        <details class="section" open>
+          <summary>Itens</summary>
+          <div class="content">
+            <div class="tools-row">
+              <button class="btn-ghost" type="button" id="addItem">+ Adicionar item</button>
+            </div>
+
+            <div class="table-wrap" role="region" aria-label="Tabela de itens">
+              <table class="table" id="itensTable">
+                <thead>
+                  <tr>
+                    <th style="width:44px">#</th>
+                    <th>Descrição</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="totais">
+              <div class="field">
+              </div>
+              <div class="field">
+                <label for="frete">Frete (R$)</label>
+                <input id="frete" name="frete" type="number" step="0.01" min="0" value="0">
+              </div>
+              <div class="field totalzao">
+                <label for="total">Total (R$)</label>
+                <input id="total" name="total" type="text" value="0,00" disabled aria-disabled="true">
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- PAGAMENTO / ENTREGA -->
+        <details class="section">
+          <summary>Pagamento & Entrega</summary>
+          <div class="content">
+            <div class="grid row">
+              <div class="field">
+                <label for="forma_pagamento">Forma de pagamento</label>
+                <select id="forma_pagamento" name="forma_pagamento">
+                  <option value="" selected>—</option>
+                  <option value="boleto">Boleto</option>
+                  <option value="pix">PIX</option>
+                  <option value="cartao">Cartão</option>
+                </select>
+
+                      <div class="field">
+                        <label for="previsao_entrega">Previsão de Entrega</label>
+                        <select id="previsao_entrega" name="previsao_entrega">
+                          <option value="" selected>—</option>
+                          <option value="10 dias">10d</option>
+                          <option value="20 dias">20d</option>
+                          <option value="30 dias">30d</option>
+                        </select>
+
+            <div class="field">
+              <label for="observacoes">Observações</label>
+              <input id="observacoes" name="observacoes" placeholder="Observações do pedido (opcional)">
+            </div>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button type="submit">SALVAR PEDIDO</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="./pedidos.js"></script>
+</body>
+</html>
