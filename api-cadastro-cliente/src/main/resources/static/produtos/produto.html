@@ -85,31 +85,11 @@
         </details>
 
         <div class="actions">
-          <button type="submit">SALVAR PRODUTO</button>
+          <button type="submit" id="submitButton">SALVAR PRODUTO</button>
         </div>
       </form>
     </main>
   </div>
-
-  <script>
-    const form = document.getElementById('produtoForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const produto = {
-        nome_produto: form.nome_produto.value.trim(),
-        modelo: form.modelo.value.trim(),
-        tamanho: form.tamanho.value.trim(),
-        cor: form.cor.value.trim(),
-        descricao: form.descricao.value.trim(),
-        qtd_estoque: parseInt(form.qtd_estoque.value),
-        preco: parseFloat(form.preco.value)
-      };
-
-      console.log('Produto enviado (stub):', produto);
-      alert('Produto cadastrado com sucesso! (stub — integrar API depois)');
-      form.reset();
-    });
-  </script>
+  <script src="./produto.js"></script>
 </body>
 </html>
