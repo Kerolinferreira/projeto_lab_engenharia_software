@@ -32,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const dadosPlanos = Object.fromEntries(formData.entries());
         
         // 3. Montar o DTO para o backend (API Java)
-        // Note que 'tamanho' e 'cor' não são enviados,
-        // pois não existem na sua tabela 'produto'.
         const dadosParaApi = {
             nome_produto: dadosPlanos.nome_produto,
             descricao: dadosPlanos.descricao,
@@ -48,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Ajuste o endpoint '/api/produtos' se necessário.
-            // Usei como base seus endpoints de cliente e produto.
             const response = await fetch('/api/produtos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -97,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // ==========================================================
-                // QUANDO O BACKEND ESTIVER PRONTO, FAÇA O FETCH AQUI
+                // Fetch pra gerar ia
                 // Exemplo (descomente e ajuste o endpoint):
                 /*
                 const payloadIa = { nome, modelo, tamanho, cor };
@@ -114,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 */
                 // ==========================================================
                 
-                // STUB (simulação) - Remova isso quando integrar a API real
+                // STUB (simulação) APAGAR DPS !!!!!!!!!!!
                 await new Promise(r => setTimeout(r, 1500)); // Simula delay da rede
                 const textoGerado = `Este é um ${nome} modelo ${modelo || 'padrão'}, no tamanho ${tamanho || 'único'} e cor ${cor || 'indefinida'}. Perfeito para quem busca conforto e estilo... (Texto gerado por IA)`;
                 // Fim do STUB
