@@ -17,7 +17,7 @@ import lombok.Setter;
  * Está associado de forma 1:1 com Cliente.
  */
 @Entity
-@Table(name="cadastro_endereco",schema="cto")
+@Table(name="endereco")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,7 +33,7 @@ public class Endereco {
     @Column(nullable = true, length = 15)
     private String cep;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 150)
     private String logradouro;
 
     @Column(nullable = false, length = 5)

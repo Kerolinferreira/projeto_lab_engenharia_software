@@ -54,6 +54,12 @@
     <artifactId>spring-boot-starter-mail</artifactId>
 </dependency>
 
+<dependency>
+  <groupId>com.google.genai</groupId>
+  <artifactId>google-genai</artifactId>
+  <version>0.2.0</version>
+</dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -65,6 +71,14 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  
+  <repositories>
+    <repository>
+      <id>google-maven</id>
+      <url>https://maven.google.com</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>
