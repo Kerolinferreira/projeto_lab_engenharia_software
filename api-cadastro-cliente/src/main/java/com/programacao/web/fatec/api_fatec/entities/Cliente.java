@@ -20,7 +20,7 @@ import lombok.Setter;
  * Um cliente possui um id, um nome e um endereço.
  */
 @Entity
-@Table(name="cadastro_cliente", schema="cto")
+@Table(name="cliente")
 @Getter
 @Setter
 @NoArgsConstructor
