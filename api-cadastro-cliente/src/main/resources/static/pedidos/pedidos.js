@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Referências do DOM ---
+    // --- Referï¿½ncias do DOM ---
     const form = document.getElementById('pedidoForm');
     const itensTable = document.getElementById('itensTable');
     const tbody = itensTable.querySelector('tbody');
     const thead = itensTable.querySelector('thead');
 
-    // Botões
+    // Botï¿½es
     const btnBuscarCliente = document.getElementById('btnBuscarCliente');
     const btnAddItem = document.getElementById('addItemBtn');
     const btnClearItems = document.getElementById('clearItemsBtn');
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let itensCarrinho = [];
     let clienteSelecionado = null;
 
-    // --- Inicialização ---
+    // --- Inicializaï¿½ï¿½o ---
     inicializarTabela();
     carregarProximoNumero();
     setDataAtual();
@@ -62,17 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Funções ---
+    // --- Funï¿½ï¿½es ---
 
     function inicializarTabela() {
         thead.innerHTML = `
             <tr>
                 <th style="width:80px">ID</th>
                 <th>Produto</th>
-                <th style="width:120px">Preço Unit.</th>
+                <th style="width:120px">PreÃ§o Unit.</th>
                 <th style="width:100px">Qtd</th>
                 <th style="width:120px">Subtotal</th>
-                <th style="width:80px">Ações</th>
+                <th style="width:80px">AÃ§Ã´es</th>
             </tr>
         `;
     }
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const ultimoId = await response.json();
             inputNumero.value = ultimoId + 1;
         } catch (error) {
-            console.error('Erro ao carregar próximo número:', error);
+            console.error('Erro ao carregar prï¿½ximo nï¿½mero:', error);
             inputNumero.value = '1';
         }
     }
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `${i + 1}. ${c.nome} - ${c.cpf_cnpj} - ${c.endereco?.cidade || ''}`
         ).join('\n');
 
-        const escolha = prompt(`Encontrados ${clientes.length} clientes:\n\n${opcoes}\n\nDigite o número do cliente:`);
+        const escolha = prompt(`Encontrados ${clientes.length} clientes:\n\n${opcoes}\n\nDigite o nÃºmero do cliente:`);
 
         if (escolha) {
             const index = parseInt(escolha) - 1;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabelaProdutos = modalProdutos.querySelector('tbody');
 
         if (!tabelaProdutos) {
-            // Cria o tbody se não existir
+            // Cria o tbody se nï¿½o existir
             const table = modalProdutos.querySelector('table');
             const tbody = document.createElement('tbody');
             tbody.id = 'tabelaProdutos';
@@ -223,15 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function adicionarItemAoPedido(produto) {
-        // Verifica se o produto já está no carrinho
+        // Verifica se o produto jï¿½ estï¿½ no carrinho
         const itemExistente = itensCarrinho.find(item => item.produtoId === produto.id);
 
         if (itemExistente) {
-            // Se já existe, incrementa a quantidade
+            // Se jï¿½ existe, incrementa a quantidade
             itemExistente.quantidade += parseInt(inputQtdPadrao.value);
             itemExistente.subtotal = itemExistente.quantidade * itemExistente.precoUnitario;
         } else {
-            // Se não existe, adiciona novo item
+            // Se nï¿½o existe, adiciona novo item
             const novoItem = {
                 produtoId: produto.id,
                 nomeProduto: produto.nome_produto,
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function salvarPedido(event) {
         event.preventDefault();
 
-        // Validações
+        // Validaï¿½ï¿½es
         if (!clienteSelecionado) {
             alert('Selecione um cliente antes de salvar o pedido');
             inputClienteBusca.focus();
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             alert(`Pedido #${pedidoSalvo.id} cadastrado com sucesso!`);
 
-            // Limpa o formulário
+            // Limpa o formulï¿½rio
             form.reset();
             itensCarrinho = [];
             clienteSelecionado = null;
