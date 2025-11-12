@@ -1,0 +1,196 @@
+/* Estilos específicos de pedidos (reaproveitando tokens do style.css) */
+
+/* utilidades */
+.muted{ color: var(--muted); font-size: 12px; }
+.search-wrap{ display:flex; gap:8px; align-items:center }
+
+/* barra de ferramentas da seção Itens */
+.tools-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px;
+}
+.tools-row.no-gap{ gap:8px }
+
+/* botões */
+.btn-add{
+  background: var(--brand);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  padding:8px 14px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(11,116,255,.18);
+  transition: filter .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.btn-add:hover{ filter:brightness(.95) }
+.btn-add:active{ transform:translateY(0.5px) }
+
+.btn-del{
+  background:#ef4444;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  padding:8px 14px;
+  font-weight:600;
+  cursor:pointer;
+  transition: background .15s ease;
+}
+.btn-del:hover{ background:#dc2626 }
+
+.btn-ghost{
+  background:#eef2f6;
+  border:1px solid #d8dee7;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  color:#374151;
+}
+.btn-ghost:hover{ filter:brightness(.96) }
+
+/* inputs auxiliares */
+.input-qtd{
+  width:92px;
+  padding:8px;
+  text-align:center;
+  border:1px solid #cbd5e1;
+  border-radius:6px;
+  background:#fff;
+}
+
+/* tabela de itens */
+.table{ width:100%; border-collapse:collapse }
+.table th,.table td{
+  padding:10px;
+  border-bottom:1px solid var(--line, #e6eaf2);
+  text-align:left;
+}
+.table th{
+  background:#f9fbff;
+  color:#374151;
+  font-weight:700;
+}
+.table td .row-actions{ display:flex; gap:6px }
+
+.table-btn{
+  border:1px solid #cbd5e1;
+  background:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size: 0.9rem;
+}
+.table-btn.edit{ border-color:#93c5fd }
+.table-btn.del{ border-color:#fecaca }
+.table-btn.del:hover{ background:#fee2e2 }
+
+/* totais */
+.totais{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  margin-top:12px;
+}
+.totais .field{ min-width:160px }
+.totais .totalzao input{
+  font-weight:800;
+  font-size:18px;
+  background:#eef4ff;
+}
+
+/* feedback numérico inválido */
+.bad-num{
+  border-color:#ef4444 !important;
+  box-shadow:0 0 0 3px rgba(239,68,68,.15) !important;
+}
+
+/* mono */
+.mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* ===== Modal (dialog) de produtos ===== */
+dialog.modal-produtos{
+  width:min(900px, 92vw);
+  border:none;
+  border-radius:12px;
+  padding:0;
+  box-shadow:0 18px 60px rgba(0,0,0,.25);
+}
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#f5f8ff;
+  border-bottom:1px solid #e5e7eb;
+  padding:12px 18px;
+}
+.modal-body{ padding:18px }
+.modal-body input[type="search"]{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #cdd9ee;
+  border-radius:8px;
+  background:var(--bg-field, #f5f8ff);
+}
+.modal-foot{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:12px 18px;
+  border-top:1px solid #e5e7eb;
+}
+
+/* responsivo */
+@media (max-width: 760px){
+  .totais{ justify-content:stretch }
+  .totais .field{ flex:1 1 46% }
+}
+
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed; /* Fica no topo da página */
+    z-index: 1; /* Fica acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4); /* Fundo escuro com transparência */
+    padding-top: 60px;
+}
+
+.modal-conteudo {
+    background-color: #fefefe;
+    margin: 15% auto; /* Centraliza vertical e horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Largura do conteúdo */
+    max-width: 500px;
+    border-radius: 5px;
+}
+
+.fechar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.fechar:hover,
+.fechar:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.compact-row {
+ 
+  .field.pedido input {
+    width: 100%;
+    max-width: 150px; 
+  }
+}

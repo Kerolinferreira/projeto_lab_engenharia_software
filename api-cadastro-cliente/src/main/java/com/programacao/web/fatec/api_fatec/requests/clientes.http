@@ -1,0 +1,25 @@
+POST http://localhost:8081/api/clientes
+Content-Type: application/json
+
+{
+  "loja": "01",
+  "cpf_cnpj": "12345678901",
+  "tipo": "PF",
+  "nome": "Mario",
+  "nome_fantasia": null,
+  "data_abertura_nascimento": "1990-01-01",
+  "homepage": null,
+  "email": "mario@email.com",
+  "nome_contato": "Mario",
+  "contato": "11999999999",
+  "endereco": {
+    "cep": "01001000",
+    "logradouro": "Rua XXX",
+    "numero": "123",
+    "complemento": "Apto 45",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "uf": "SP",
+    "pais": "Brasil"
+  }
+}

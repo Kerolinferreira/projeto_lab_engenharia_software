@@ -1,0 +1,3 @@
+2025-10-01 16:48:59.184395-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "EMAIL CHARACTER VARYING(20)": "'pepsiatendimento@pepsi.com' (26)"; SQL statement:
+insert into cadastro_cliente (contato,cpf_cnpj,data_abertura_nascimento,email,endereco_codigo,homepage,loja,nome,nome_contato,nome_fantasia,tipo,id) values (?,?,?,?,?,?,?,?,?,?,?,default) [22001-232]
